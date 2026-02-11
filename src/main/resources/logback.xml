@@ -1,15 +1,25 @@
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <property name="COMMON_PATTERN" value="[%d{hh:mm:ss.SSS}] [%thread] %-5level [%logger{36}]: %msg%n"/>
+
+    <appender name="ROOT_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
         <encoder>
-            <pattern>[%d{hh:mm:ss.SSS}] [%thread] %-5level [%logger{36}]: %msg%n</pattern>
+            <pattern>${COMMON_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <appender name="APP_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${COMMON_PATTERN}</pattern>
         </encoder>
     </appender>
     
     <root level="WARN">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROOT_APPENDER"/>
     </root>
     
     <logger name="com.github.tavi" level="INFO">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="APP_APPENDER"/>
     </logger>
 </configuration>
