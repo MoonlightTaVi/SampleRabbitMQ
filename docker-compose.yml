@@ -3,11 +3,15 @@ services:
         build: .
         ports:
             - "${APP_PORT}:8081"
+        environment:
+            SPRING_RABBITMQ_HOST: rabbitmq
+        env_file:
+            - .env
     rabbitmq:
         container_name: "SampleRabbitMQ"
         image: "rabbitmq:latest"
         ports:
             - "5672:5672"
         environment:
-            - "RABBITMQ_DEFAULT_USER=${USERNAME}"
-            - "RABBITMQ_DEFAULT_PASS=${PASSWORD}"
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
