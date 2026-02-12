@@ -1,8 +1,16 @@
-FROM eclipse-temurin:17-jre-alpine
-
-ARG JAR_FILE=target/*.jar
+FROM eclipse-temurin:17-alpine AS build
 
 WORKDIR /app
-COPY ${JAR_FILE} /app/app.jar
+COPY mvnw pom.xml .
+COPY src ./src
+COPY .mvn .mvn
 
-CMD ["java", "--jar", "app.jar"]
+RUN ./mvnw dependency:resolve
+RUN ./mvnw clean package
+
+FROM eclipse-temurin:17-alpine
+
+WORKDIR /app
+COPY --from=build app/target/*.jar ./demo.jar
+
+ENTRYPOINT ["java", "-jar", "demo.jar"]
