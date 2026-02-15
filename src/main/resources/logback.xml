@@ -2,9 +2,13 @@
     <property name="COMMON_PATTERN" value="[%d{hh:mm:ss.SSS}] [%thread] %-5level [%logger{36}]: %msg%n"/>
 
     <appender name="ROOT_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
-        </filter>
+        <encoder>
+            <pattern>${COMMON_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <appender name="AMQP_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <file>logs/amqp-log.log</file>
+        <append>false</append>
         <encoder>
             <pattern>${COMMON_PATTERN}</pattern>
         </encoder>
@@ -19,7 +23,11 @@
         <appender-ref ref="ROOT_APPENDER"/>
     </root>
     
-    <logger name="com.github.tavi" level="INFO">
+    <logger name="com.github.tavi" level="INFO" additivity="false">
         <appender-ref ref="APP_APPENDER"/>
+    </logger>
+    
+    <logger name="org.springframework.amqp" level="INFO" additivity="false">
+        <appender-ref ref="AMQP_APPENDER"/>
     </logger>
 </configuration>
