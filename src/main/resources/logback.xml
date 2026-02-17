@@ -13,21 +13,23 @@
             <pattern>${COMMON_PATTERN}</pattern>
         </encoder>
     </appender>
-    <appender name="APP_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="APP_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <file>logs/app-log.log</file>
+        <append>false</append>
         <encoder>
             <pattern>${COMMON_PATTERN}</pattern>
         </encoder>
     </appender>
     
-    <root level="WARN">
+    <root level="INFO">
         <appender-ref ref="ROOT_APPENDER"/>
     </root>
     
-    <logger name="com.github.tavi" level="INFO" additivity="false">
+    <logger name="com.github.tavi" level="INFO">
         <appender-ref ref="APP_APPENDER"/>
     </logger>
     
-    <logger name="org.springframework.amqp" level="INFO" additivity="false">
+    <logger name="org.springframework.amqp" level="INFO">
         <appender-ref ref="AMQP_APPENDER"/>
     </logger>
 </configuration>
