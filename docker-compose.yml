@@ -1,3 +1,5 @@
+version: "3"
+
 services:
     app:
         build: .
@@ -7,11 +9,20 @@ services:
             SPRING_RABBITMQ_HOST: rabbitmq
         env_file:
             - .env
+        depends_on:
+            rabbitmq:
+                condition: service_healthy
     rabbitmq:
         container_name: "SampleRabbitMQ"
-        image: "rabbitmq:latest"
+        image: "rabbitmq:management"
         ports:
+            - "15672:15672"
             - "5672:5672"
         environment:
             RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
             RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+        healthcheck:
+            test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+            interval: 20s
+            timeout: 10s
+            retries: 3
