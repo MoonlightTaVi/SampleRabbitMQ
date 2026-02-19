@@ -13,4 +13,4 @@ FROM eclipse-temurin:17-alpine
 WORKDIR /app
 COPY --from=build app/target/*.jar ./demo.jar
 
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+ENTRYPOINT ["java", "-jar", "demo.jar", "send", "-s", "John", "-r", "Jane", "-a", "100"]
