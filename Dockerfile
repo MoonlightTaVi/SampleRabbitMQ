@@ -1,12 +1,15 @@
 FROM eclipse-temurin:17-alpine AS build
 
 WORKDIR /app
+
 COPY mvnw pom.xml .
-COPY src ./src
 COPY .mvn .mvn
 
-RUN ./mvnw dependency:resolve
-RUN ./mvnw clean package
+RUN ./mvnw dependency:go-offline
+
+COPY src ./src
+
+RUN ./mvnw package
 
 FROM eclipse-temurin:17-alpine
 
