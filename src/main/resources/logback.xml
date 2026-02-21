@@ -38,6 +38,11 @@
         <appender-ref ref="APP_APPENDER"/>
     </logger>
     
+    <logger name="org.springframework" level="WARN" additivity="false">
+        <appender-ref ref="STDOUT_APPENDER"/>
+        <appender-ref ref="APP_APPENDER"/>
+    </logger>
+    
     <logger name="org.springframework.amqp" level="INFO" additivity="false">
         <appender-ref ref="AMQP_APPENDER"/>
     </logger>
