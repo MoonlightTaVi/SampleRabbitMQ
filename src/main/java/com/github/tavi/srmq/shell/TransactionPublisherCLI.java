@@ -31,7 +31,7 @@ import com.github.tavi.srmq.dto.RequestDTO;
  * that will run in a different process.
  */
 @Component
-public class MessagePublisherCLI {
+public class TransactionPublisherCLI {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
