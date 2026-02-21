@@ -1,24 +1,34 @@
 services:
+    # This spring application (from Dockerfile)
     app:
-        build: .
+        build: . # Directory of the Dockerfile of the application
         ports:
-            - "${APP_PORT}:8081"
+            - "${APP_PORT}:8081" # Container-specific port
         environment:
+            # Overrides RabbitMQ address (which defaults to localhost)
             SPRING_RABBITMQ_HOST: rabbitmq
+        # When started from inside the container,
+        # the application does not know about the .env file
         env_file:
             - .env
+        # Delay the application start until the RabbitMQ service is ready
         depends_on:
             rabbitmq:
                 condition: service_healthy
+    # The "rabbitmq" is the (custom) name of the service,
+    # it also serves as the RabbitMQ address inside the container
     rabbitmq:
         container_name: "SampleRabbitMQ"
+        # The "management" version allows checking for the service health
         image: "rabbitmq:management"
         ports:
-            - "15672:15672"
-            - "5672:5672"
+            - "15672:15672" # Management port
+            - "5672:5672" # Main service port
+        # These credential must be shared with the spring application
         environment:
             RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
             RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+        # This property specifies: how the healthcheck is performed
         healthcheck:
             test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
             interval: 20s

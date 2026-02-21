@@ -1,12 +1,15 @@
 <configuration>
     <property name="COMMON_PATTERN" value="[%d{hh:mm:ss.SSS}] [%thread] %-5level [%logger{36}]: %msg%n"/>
 
+    <!-- Standard output (console). -->
     <appender name="STDOUT_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${COMMON_PATTERN}</pattern>
         </encoder>
     </appender>
 
+    <!-- Logging to separate files (package/level specific). -->
+    <!-- Files are overridden on every launch ("append=false"). No history. -->
     <appender name="ROOT_APPENDER" class="ch.qos.logback.core.FileAppender">
         <file>logs/general-log.log</file>
         <append>false</append>
@@ -29,20 +32,30 @@
         </encoder>
     </appender>
     
+    <!-- Additivity is set to "false" to override the ROOT configuration. -->
+    <!-- Crucial messages are logged to the console. -->
+    <!-- Everything else is logged to separate files. -->
+    
+    <!-- All unsorted logs go here. -->
     <root level="INFO">
         <appender-ref ref="ROOT_APPENDER"/>
     </root>
     
+    <!-- "This application" logs go here. -->
     <logger name="com.github.tavi" level="INFO" additivity="false">
         <appender-ref ref="STDOUT_APPENDER"/>
         <appender-ref ref="APP_APPENDER"/>
     </logger>
     
+    <!-- Spring framework errors are treated as the application logs. -->
+    <!-- It is crucial when the application fails for some reason. -->
     <logger name="org.springframework" level="WARN" additivity="false">
         <appender-ref ref="STDOUT_APPENDER"/>
         <appender-ref ref="APP_APPENDER"/>
     </logger>
     
+    <!-- Spring AMQP logs go here. -->
+    <!-- They only represent the RabbitMQ service connection state. -->
     <logger name="org.springframework.amqp" level="INFO" additivity="false">
         <appender-ref ref="AMQP_APPENDER"/>
     </logger>
