@@ -10,7 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.github.tavi.srmq.annotations.MaxDecimalPlaces;
 import com.github.tavi.srmq.dto.RequestDTO;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 
 /**
@@ -58,25 +62,30 @@ public class TransactionPublisherCLI {
                     shortName = 's', longName = "sender",
                             description = "The name of the user who sends the request.", required = true
                     ) 
+                    @NotNull
             String senderName, 
             @Option(
                     shortName = 'r', longName = "receiver", 
                             description = "The name of the user who will receive the transaction.", required = true
                     ) 
+                    @NotNull
             String receiverName, 
             @Option(
                     shortName = 'a', longName = "amount", 
                             description = "The amount of the money transaction.", required = true
                     ) 
-            int amount) {
+                    @Positive
+                    @MaxDecimalPlaces(2) float amount)
+            {
 
         RequestDTO request = new RequestDTO();
 
-        // We do not set the date of the request here;
-        // It will be set by the server, when the request reaches it
         request.setSenderName(senderName);
         request.setReceiverName(receiverName);
         request.setAmount(amount);
+        // The date is required for the POST validation
+        // But it will be updated by the server
+        request.setCurrentDate();
 
         log.info("Sending a new HTTP request.");
         boolean success = postMessage(request); // Thread sleeps here...

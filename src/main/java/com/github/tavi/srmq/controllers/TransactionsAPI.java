@@ -1,7 +1,5 @@
 package com.github.tavi.srmq.controllers;
 
-import java.sql.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.tavi.srmq.dto.RequestDTO;
+
+import jakarta.validation.Valid;
 
 
 /**
@@ -44,9 +44,9 @@ public class TransactionsAPI {
      */
     @PostMapping("send")
     public ResponseEntity<RequestDTO> postMessage(
-            @RequestBody RequestDTO request)
+            @Valid @RequestBody RequestDTO request)
     {
-        request.setDate(new Date(System.currentTimeMillis()));
+        request.setCurrentDate();
 
         ResponseEntity<RequestDTO> response = ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
