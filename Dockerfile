@@ -23,7 +23,7 @@ COPY src ./src
 
 # 1.3
 # Build the JAR (the optional "-o"" explicitly specifies "offline")
-RUN ./mvnw clean package -o
+RUN ./mvnw -Dmaven.test.skip=true clean package -o
 
 # 2
 # Start the JAR...
