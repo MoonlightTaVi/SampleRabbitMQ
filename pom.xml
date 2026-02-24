@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.tavi</groupId>
   <artifactId>sample-rabbitmq</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <name>SampleRabbitMQ</name>
   <description>Sample Spring + RabbitMQ project</description>
   

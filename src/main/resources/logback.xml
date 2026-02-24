@@ -1,5 +1,5 @@
 <configuration>
-    <property name="COMMON_PATTERN" value="[%d{hh:mm:ss.SSS}] [%thread] %-5level [%logger{36}]: %msg%n"/>
+    <property name="COMMON_PATTERN" value="[%d{HH:mm:ss.SSS}] [%thread] %-5level [%logger{36}]: %msg%n"/>
 
     <!-- Standard output (console). -->
     <appender name="STDOUT_APPENDER" class="ch.qos.logback.core.ConsoleAppender">

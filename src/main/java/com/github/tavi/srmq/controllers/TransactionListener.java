@@ -24,7 +24,7 @@ public class TransactionListener {
 
 
     public TransactionListener() {
-        format = new SimpleDateFormat("dd MMM yyyy, hh:mm:ss");
+        format = new SimpleDateFormat("dd MMM yyyy, HH:mm:ss");
     }
 
 
