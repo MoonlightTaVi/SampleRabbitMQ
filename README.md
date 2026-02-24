@@ -24,7 +24,7 @@ of important warnings in several separate `.log` files;
 2. Java Spring code templates:
 
 - **Simple RabbitMQ configuration for Spring**: can be easily adapted for specific cases;
-- **Simple REST API**: includes a shared cross-origin for end-points and JSON validation;
+- **Simple REST API**: includes a common shared mapping for end-points and JSON validation;
 - **Simple Spring Shell command**: currently works in the script mode, 
 serves as an interactive command line runner;
 - **Jakarta/Spring bean validation with custom annotations**: 
@@ -62,13 +62,13 @@ a new nested RabbitMQ image container for this application specifically (it will
 > 
 > One of the advantages of such an approach is that anyone can put **real** credentials into the `.env` file, but they will never get leaked (since it is already ignored by `git`).
 
-# What the application does
+# What does the application do
 
 By default, nothing will happen upon the launch.
 
 The application expects command-line agruments when it starts (this mechanism is powered by Spring Shell). For example:
 
-`java -jar demo.jar -s SenderName -r ReceiverName -a MoneyAmount`
+`java -jar send demo.jar -s SenderName -r ReceiverName -a MoneyAmount`
 
 Here:
 
@@ -128,13 +128,11 @@ Besides, the Logback is configured to log in a single file for each separate pac
 The time that is shown in logs / Rabbit messages does not take time regions
 into account (because it is how it works). The used time region is Greenwich Mean Time, or GMT (UTC+0).
 
-⚠️ Known bug: the time is written in AM/PM 12-hours style, but it does not actually specify AM/PM tags.
-
 ## Unhandled exceptions
 
 The application does not handle most of the exceptions that may happen. For example, it will crash if someone tries to send negative amount of money (validation exception).
 
-It is **not** because it is hard to do; it is because this functionality is out of the application scope (e.g. the Shell component represents a separate web-client that makes requests to the remote server).
+It is **not** because it is hard to implement; it is because this functionality is out of the application scope (e.g. the Shell component represents a separate web-client that makes requests to the remote server).
 
 But the most crucial exceptions (such as the connection exception) are treated in the best way possible (as for a sample project).
 
